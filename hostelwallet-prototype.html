@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HostelWallet Prototype</title>
+  <style>
+    :root { color-scheme: light; --ink:#151515; --paper:#f6f4ef; --green:#17201c; --lime:#d8ff69; --blue:#256cdd; --line:#e5dfcf; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input { font:inherit; }
+    button { cursor:pointer; border:0; }
+    main { max-width:1360px; margin:auto; padding:20px; display:grid; grid-template-columns:360px 1fr 340px; gap:20px; }
+    .panel { border-radius:28px; background:#fff; padding:20px; box-shadow:0 18px 45px rgba(20,20,20,.06); }
+    .dark { background:var(--green); color:#fff; min-height:calc(100vh - 40px); }
+    .kicker { margin:0; color:#5c7467; font-size:14px; font-weight:800; }
+    .dark .kicker { color:#b9d8c8; }
+    h1, h2, p { margin-top:0; }
+    h1 { font-size:42px; line-height:.95; letter-spacing:0; margin-bottom:0; }
+    h2 { font-size:26px; line-height:1.05; margin-bottom:0; }
+    input[type="text"], input[type="number"] { width:100%; border:0; outline:0; border-radius:18px; padding:13px 14px; background:#fff; }
+    .dark input { background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.1); }
+    .dark input::placeholder { color:rgba(255,255,255,.55); }
+    .stack { display:grid; gap:20px; }
+    .soft { background:#f6f4ef; }
+    .blue { background:#eef6ff; }
+    .yellow { background:#fff1c7; }
+    .orange { background:#ffb951; color:#231603; }
+    .card { border-radius:22px; padding:16px; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .wrap { display:flex; flex-wrap:wrap; gap:8px; }
+    .pill { border-radius:999px; padding:10px 14px; background:#eef0e8; font-size:14px; font-weight:800; color:#263027; }
+    .pill.active { background:var(--blue); color:white; }
+    .primary { width:100%; border-radius:18px; background:var(--lime); color:var(--green); padding:13px 16px; font-weight:900; }
+    .darkbtn { width:100%; border-radius:18px; background:var(--green); color:white; padding:13px 16px; font-weight:900; }
+    .grid2 { display:grid; grid-template-columns:1fr 1.4fr; gap:16px; }
+    .budgets { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .budget { border:1px solid var(--line); border-radius:22px; padding:14px; }
+    .bar { height:10px; border-radius:99px; background:#ebe7db; overflow:hidden; margin-top:10px; }
+    .fill { height:100%; border-radius:99px; background:#2f8c67; }
+    .expense { display:flex; justify-content:space-between; align-items:center; gap:12px; border-radius:18px; background:#f6f4ef; padding:12px; }
+    .muted { color:#667266; font-size:14px; }
+    .dark .muted { color:rgba(255,255,255,.7); }
+    .money { font-size:38px; font-weight:950; margin:4px 0 0; }
+    .quick { display:flex; gap:8px; margin-top:8px; }
+    .quick input { min-width:0; color:var(--ink); }
+    .mini { border-radius:18px; padding:13px 16px; font-weight:900; background:var(--lime); color:var(--green); }
+    .tabs { display:flex; gap:8px; margin-bottom:16px; overflow:auto; }
+    .tab { white-space:nowrap; border-radius:999px; padding:10px 14px; background:#e7e1d1; font-size:14px; font-weight:850; }
+    .tab.active { background:var(--green); color:white; }
+    .phone-logo { display:grid; place-items:center; width:48px; height:48px; border-radius:18px; background:var(--lime); color:var(--green); font-size:22px; font-weight:950; }
+    @media (max-width:1050px) { main { grid-template-columns:1fr; } .dark { min-height:auto; } }
+    @media (max-width:640px) { main { padding:12px; } .grid2, .budgets { grid-template-columns:1fr; } h1 { font-size:34px; } }
+  </style>
+</head>
+<body>
+<main>
+  <aside class="panel dark">
+    <div class="row">
+      <div>
+        <p class="kicker">HostelWallet</p>
+        <h1>No spreadsheets. Just clarity.</h1>
+      </div>
+      <div class="phone-logo">₹</div>
+    </div>
+    <div class="card" style="background:rgba(255,255,255,.1); margin-top:28px;">
+      <p class="kicker">Sign up</p>
+      <p class="muted">UPI-linked phone numbers work naturally for students in India.</p>
+      <input type="text" value="+91 98765 43210" aria-label="Phone or email">
+      <button class="primary" style="margin-top:12px;">Send OTP</button>
+      <div class="grid2" style="grid-template-columns:1fr 1fr; margin-top:10px;">
+        <button class="pill" style="background:rgba(255,255,255,.12); color:#fff;">Google</button>
+        <button class="pill" style="background:rgba(255,255,255,.12); color:#fff;">Apple</button>
+      </div>
+    </div>
+    <div class="card orange" style="margin-top:20px;">
+      <strong>3-minute MVP flow</strong>
+      <p style="margin:8px 0 0;">Sign up, set allowance, adjust budgets, log one expense, and settle with a roommate.</p>
+    </div>
+  </aside>
+
+  <section class="stack">
+    <nav class="tabs" aria-label="Prototype sections">
+      <button class="tab active">Onboarding</button><button class="tab">Dashboard</button><button class="tab">Split</button><button class="tab">Suggestions</button>
+    </nav>
+    <section class="panel">
+      <div class="row">
+        <div><p class="kicker">Income setup</p><h2>How much do you get monthly?</h2></div>
+        <button id="irregular" class="pill active">Irregular income</button>
+      </div>
+      <div class="grid2" style="margin-top:18px;">
+        <label class="card soft"><span class="muted">Monthly allowance</span><input id="income" type="number" value="22000" style="font-size:40px; font-weight:950; background:transparent; padding-left:0;" aria-label="Monthly allowance"></label>
+        <div class="card blue"><strong>What do you pay for daily?</strong><div class="wrap" style="margin-top:12px;"><button class="pill active">Food</button><button class="pill active">Transport</button><button class="pill">Chai/snacks</button><button class="pill active">Printing</button></div></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="row"><div><p class="kicker">Category setup</p><h2>Smart starter budget</h2></div><div class="pill"><span id="total">₹20,050</span> allocated</div></div>
+      <div class="budgets" id="budgets" style="margin-top:18px;"></div>
+      <button class="pill" style="margin-top:14px; border:1px dashed #9ea894;">+ Add Custom Category</button>
+    </section>
+
+    <section class="grid2">
+      <div class="panel dark">
+        <p class="kicker">Home dashboard</p>
+        <h2 class="money" id="left">₹8,280 left</h2>
+        <p class="muted">12 days left this month</p>
+        <div class="bar" style="background:rgba(255,255,255,.15); height:16px;"><div class="fill" style="width:62%; background:var(--lime);"></div></div>
+        <div class="card" style="background:rgba(255,255,255,.1); margin-top:20px;"><span class="muted">Quick add</span><div class="quick"><input type="text" value="220 auto" aria-label="Quick add expense"><button class="mini">Add</button></div></div>
+      </div>
+      <div class="panel">
+        <p class="kicker">Expense log</p>
+        <div class="stack" style="gap:8px; margin-top:12px;">
+          <div class="expense"><div><strong>Auto to college</strong><div class="muted">Transport</div></div><strong>₹220</strong></div>
+          <div class="expense"><div><strong>Swiggy dinner</strong><div class="muted">Mess/Food</div></div><strong>₹180</strong></div>
+          <div class="expense"><div><strong>Lab manual print</strong><div class="muted">Printing & Projects</div></div><strong>₹140</strong></div>
+        </div>
+        <label class="expense blue" style="margin-top:14px;"><strong>Split with roommates</strong><input type="checkbox"></label>
+      </div>
+    </section>
+  </section>
+
+  <aside class="stack">
+    <section class="panel">
+      <p class="kicker">Budget-friendly suggestions</p><h2>Spend less nearby</h2>
+      <div class="stack" style="gap:10px; margin-top:14px;">
+        <div class="card soft"><strong>Transport high</strong><p class="muted">You spent ₹1,620 on rides. Try a bus pass or Namma Yatri before surge hours.</p></div>
+        <div class="card soft"><strong>Food outside mess</strong><p class="muted">7 delivery orders this month. Magicpin or EatSure may beat standard delivery pricing.</p></div>
+        <div class="card soft"><strong>Subscription check</strong><p class="muted">Two small subscriptions repeat next week. Keep Copilot, pause the inactive video plan.</p></div>
+      </div>
+    </section>
+    <section class="panel yellow"><p class="kicker">Roommate settle-up</p><h2>Aarav owes you ₹430</h2><p class="muted">WiFi and shared groceries are tracked separately from your personal budget.</p><button class="darkbtn">Open UPI payment</button></section>
+    <section class="panel"><p class="kicker">Savings goal</p><h2>Laptop upgrade</h2><div class="bar"><div class="fill" style="width:44%; background:var(--blue);"></div></div><p class="muted" style="margin-top:8px;">₹13,200 saved of ₹30,000</p></section>
+  </aside>
+</main>
+<script>
+  const categories = [["Hostel/Rent",7000],["Mess/Food",4500],["Stationery & Books",900],["Printing & Projects",1200],["Transport",1800],["Phone & Subscriptions",650],["Personal Spending",2500],["Savings/Goals",1500]];
+  const budgets = document.getElementById("budgets");
+  const income = document.getElementById("income");
+  const left = document.getElementById("left");
+  const total = categories.reduce((sum, item) => sum + item[1], 0);
+  function render() {
+    budgets.innerHTML = "";
+    categories.forEach(([name, amount]) => {
+      const card = document.createElement("div");
+      card.className = "budget";
+      card.innerHTML = `<div class="row"><strong>${name}</strong><span>₹${amount.toLocaleString("en-IN")}</span></div><div class="bar"><div class="fill" style="width:${Math.min((amount / Number(income.value)) * 160, 100)}%"></div></div>`;
+      budgets.appendChild(card);
+    });
+    left.textContent = `₹${(Number(income.value) - 13720).toLocaleString("en-IN")} left`;
+  }
+  document.querySelectorAll(".pill").forEach((button) => button.addEventListener("click", () => button.classList.toggle("active")));
+  income.addEventListener("input", render);
+  render();
+</script>
+</body>
+</html>
